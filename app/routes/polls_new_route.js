@@ -1,6 +1,11 @@
 App.PollsNewRoute = Ember.Route.extend({
   model: function() {
-    return this.store.createRecord('poll');
+    poll = this.store.createRecord('poll');
+    for(var i=0;i<3;i++){
+      choice = this.store.createRecord('choice', {poll: poll});
+      poll.get('choices').addObject(choice);
+    };
+    return poll;
   },
   deactivate: function() {
     var model = this.get('controller.model');
@@ -9,6 +14,13 @@ App.PollsNewRoute = Ember.Route.extend({
     }
   },
   actions: {
+    newChoice: function(model) {
+      this.store.createRecord('choice', {poll: model});
+    },
+
+    removeChoice: function(model){
+      this.store.deleteRecord(model);
+    },
     save: function(model) {
       var _this = this;
       model.save().then(function() {

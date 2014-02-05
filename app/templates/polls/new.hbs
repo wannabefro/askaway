@@ -5,5 +5,13 @@
 <label for="">Question</label>
 {{input value=question}}
 </div>
+{{#each choices}}
+<div>
+<label for="">Choice</label>
+{{input value=text}}
+<button type="submit" {{action removeChoice this}}>Remove choice</button>
+</div>
+{{/each}}
 <button type="submit" {{action save this}}>Save</button>
+<button type="submit" {{action newChoice this}}>Add Choice</button>
 <button type="submit" {{action cancel this}}>Cancel</button>
