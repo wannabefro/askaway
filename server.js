@@ -5,7 +5,7 @@ var app = express();
 var http = require('http')
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-var routes = require('./server/routes');
+var routes = require('./server/controllers/polls');
 
 mongoose.set('debug', true);
 // This is the location of your mongo server, as well as the db name.
@@ -39,10 +39,9 @@ app.get('*', function(request, response) {
   return response.sendfile('./public/index.html');
 });
 
-// io.sockets.on('connection', routes.vote);
+io.sockets.on('connection', routes.vote);
 
 // Starting the server
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-
