@@ -1,4 +1,10 @@
-window.App = Ember.Application.create();
+window.App = Ember.Application.create({
+  Socket: EmberSockets.extend({
+    host: 'localhost',
+    port: 3000,
+    controllers: ['pollsShow']
+  })
+});
 
 require('store');
 require('router');

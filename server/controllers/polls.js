@@ -34,3 +34,6 @@ exports.destroy = function(req, res) {
     res.send(poll);
   });
 };
+
+exports.vote = function(req, res){
+};
