@@ -10,6 +10,9 @@ App.PollsNewRoute = Ember.Route.extend({
   deactivate: function() {
     var model = this.get('controller.model');
     if (model.get('isNew')) {
+      model.choices.forEach(function(choice){
+        choice.deleteRecord();
+      });
       model.deleteRecord();
     }
   },

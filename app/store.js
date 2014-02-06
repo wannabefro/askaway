@@ -11,7 +11,6 @@ DS.JSONSerializer.reopen({
     if (property && relationshipType === 'manyToNone' || relationshipType === 'manyToMany' ||
         relationshipType === 'manyToOne') {
 
-      // Add each serialized nested object
       json[key] = [];
       property.forEach(function(item, index){
         json[key].push(item.serialize());
@@ -20,6 +19,28 @@ DS.JSONSerializer.reopen({
   }
 });
 
+App.PollSerializer = DS.RESTSerializer.extend({
+  extractArray: function(store, type, payload, id, requestType) {
+    var polls = payload.polls;
+    choices = [];
+    polls.forEach(function(poll){
+        poll.id = poll._id;
+        delete poll._id;
+        choice_ids = [];
+        poll.choices.forEach(function(choice){
+          choice_ids.push(choice._id);
+          choice.poll_id = poll.id;
+          choices.push(choice);
+        });
+        poll.choices = choice_ids;
+        delete poll.choice_ids
+    });
+    payload = {choices: choices, polls: polls};
+    return this._super(store, type, payload, id, requestType);
+  }
+});
+
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: 'api/1'
 });
+

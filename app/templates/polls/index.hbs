@@ -1,7 +1,7 @@
 <h3>All Polls</h3>
 {{#each}}
-  {{question}}<br>
-  <button {{action destroyRecord this}}>Delete</button>
+  {{question}} {{choices.length}}
+  <br>
 {{else}}
   <h5>There aren't any current polls. <br>
   {{#link-to 'polls.new'}}Create a new poll.{{/link-to}}
