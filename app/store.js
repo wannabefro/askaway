@@ -29,13 +29,23 @@ App.PollSerializer = DS.RESTSerializer.extend({
         choice_ids = [];
         poll.choices.forEach(function(choice){
           choice_ids.push(choice._id);
-          choice.poll_id = poll.id;
           choices.push(choice);
         });
         poll.choices = choice_ids;
         delete poll.choice_ids
     });
     payload = {choices: choices, polls: polls};
+    return this._super(store, type, payload, id, requestType);
+  },
+  extractSingle: function(store, type, payload, id, requestType) {
+    var choices = payload.choices;
+    payload.choices = [];
+    choices.forEach(function(choice){
+      payload.choices.push(choice._id);
+    });
+    payload.id = payload._id;
+    delete payload._id;
+    payload = {choices: choices, poll: payload};
     return this._super(store, type, payload, id, requestType);
   }
 });

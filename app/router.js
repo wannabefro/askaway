@@ -1,7 +1,7 @@
 App.Router.map(function() {
-  return this.resource('polls', {
-    path: '/'
-  }, function() {
-    return this.route('new');
+  this.resource('polls', {path: '/'}, function() {
+    this.route('new');
+    this.route('show', {path: ':poll_id'});
+    // this.route('edit', {path: ':mit_id/edit'});
   });
 });

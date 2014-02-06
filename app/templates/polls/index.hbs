@@ -1,6 +1,6 @@
 <h3>All Polls</h3>
 {{#each}}
-  {{question}} {{choices.length}}
+  {{#link-to 'polls.show' this}}{{question}}{{/link-to}} {{choices.length}}
   <br>
 {{else}}
   <h5>There aren't any current polls. <br>

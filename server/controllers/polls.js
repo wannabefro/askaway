@@ -8,8 +8,19 @@ exports.index = function(req, res) {
   });
 };
 
+exports.show = function(req, res) {
+  Poll.findById(req.params.id, function(err, poll){
+    res.send(poll);
+  });
+}
+
 exports.create = function(req, res) {
-  res.send(new Poll(req.body.poll).save());
+  new Poll(req.body.poll).save(function (err, poll, numberAffected){
+    if (err){
+    } else {
+      res.send(poll);
+    }
+  });
 };
 
 exports.update = function(req, res) {

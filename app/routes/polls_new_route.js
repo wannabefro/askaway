@@ -10,7 +10,7 @@ App.PollsNewRoute = Ember.Route.extend({
   deactivate: function() {
     var model = this.get('controller.model');
     if (model.get('isNew')) {
-      model.choices.forEach(function(choice){
+      model.get('choices.content').forEach(function(choice){
         choice.deleteRecord();
       });
       model.deleteRecord();
@@ -26,7 +26,10 @@ App.PollsNewRoute = Ember.Route.extend({
     },
     save: function(model) {
       var _this = this;
-      model.save().then(function() {
+      model.save().then(function(response) {
+        model.get('choices.content').filterBy('isDirty').forEach(function(choice){
+          choice.deleteRecord();
+        });
         _this.transitionTo('polls.show', model);
       });
     },

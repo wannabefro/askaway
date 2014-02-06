@@ -1,0 +1,7 @@
+<h1>{{question}}</h1>
+<button {{action destroyRecord this}}>Delete poll</button>
+<ul>
+  {{#each choices}}
+    <li>{{text}} {{votes.length}} votes</li>
+  {{/each}}
+</ul>
