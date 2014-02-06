@@ -1,5 +1,8 @@
 <h1>{{question}}</h1>
 <button {{action destroyRecord this}}>Delete poll</button>
+{{#if canEdit}}
+  {{#link-to 'polls.edit'}}Edit Poll{{/link-to}}
+{{/if}}
 <ul>
   {{#each choices}}
     <li>{{text}} {{votes.length}} votes</li>
