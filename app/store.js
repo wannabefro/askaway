@@ -23,6 +23,7 @@ App.PollSerializer = DS.RESTSerializer.extend({
   extractArray: function(store, type, payload, id, requestType) {
     var polls = payload.polls;
     choices = [];
+    votes = [];
     polls.forEach(function(poll){
         poll.id = poll._id;
         delete poll._id;
@@ -30,22 +31,35 @@ App.PollSerializer = DS.RESTSerializer.extend({
         poll.choices.forEach(function(choice){
           choice_ids.push(choice._id);
           choices.push(choice);
+          choiceVotes = choice.votes;
+          choice.votes = [];
+          choiceVotes.forEach(function(vote){
+            choice.votes.push(vote._id);
+            votes.push(vote);
+          });
         });
         poll.choices = choice_ids;
         delete poll.choice_ids
     });
-    payload = {choices: choices, polls: polls};
+    payload = {votes: votes, choices: choices, polls: polls};
     return this._super(store, type, payload, id, requestType);
   },
   extractSingle: function(store, type, payload, id, requestType) {
     var choices = payload.choices;
     payload.choices = [];
+    var votes = [];
     choices.forEach(function(choice){
+      choiceVotes = choice.votes;
+      choice.votes = [];
       payload.choices.push(choice._id);
+      choiceVotes.forEach(function(vote){
+        choice.votes.push(vote._id);
+        votes.push(vote);
+      });
     });
     payload.id = payload._id;
     delete payload._id;
-    payload = {choices: choices, poll: payload};
+    payload = {votes: votes, choices: choices, poll: payload};
     return this._super(store, type, payload, id, requestType);
   }
 });

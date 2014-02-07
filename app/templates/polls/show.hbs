@@ -4,6 +4,7 @@
   {{#link-to 'polls.edit'}}Edit Poll{{/link-to}}
 {{/if}}
 <ul>
+  {{totalVotes}}
   {{#each choices}}
     <li>{{text}} {{votes.length}} votes 
     <button {{action vote this}}>Vote</button></li>

@@ -1,4 +1,12 @@
 App.Poll = DS.Model.extend({
   question: DS.attr(),
-  choices: DS.hasMany('choice')
+  choices: DS.hasMany('choice'),
+
+  totalVotes: function(){
+    total = 0;
+    this.get('choices').forEach(function(choice){
+      total += choice.get('voteCount');
+    });
+    return total;
+  }.property('choices.@each.voteCount')
 });
