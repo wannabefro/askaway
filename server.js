@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 var path = require('path');
 var app = express();
 var http = require('http')
+var passport = require('passport');
+var flash = require('connect-flash');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 var routes = require('./server/controllers/polls');
@@ -22,8 +24,16 @@ app.use(express["static"](path.join(__dirname, 'public')));
 if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
+// require('./config/passport')(passport); // pass passport for configuration
 
-require('./server/routes')(app);
+// required for passport
+app.use(express.session({ secret: 'verysecretsecret' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+require('./server/routes')(app, passport);
+
 
 app.get('/app.js', function(req, res) {
   return res.sendfile('./public/app.js');
