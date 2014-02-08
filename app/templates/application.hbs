@@ -1,5 +1,10 @@
 <div class='container'>
-<h1>Welcome to {{#link-to 'polls.index'}}Ask Away{{/link-to}}</h1>
-<h3>{{#link-to 'polls.new'}}Make a new poll{{/link-to}}</h3>
+<h1>Welcome to {{#link-to 'home'}}Ask Away{{/link-to}}</h1>
+{{#if session.isAuthenticated}}
+  <h3>{{#link-to 'polls.new'}}Make a new poll{{/link-to}}</h3>
+{{else}}
+  <p>{{#link-to 'login'}}Sign in{{/link-to}}</p>
+  <p>{{#link-to 'sign_up'}}Sign up{{/link-to}}</p>
+{{/if}}
 {{outlet}}
 </div>

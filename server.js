@@ -12,25 +12,28 @@ var routes = require('./server/controllers/polls');
 mongoose.set('debug', true);
 // This is the location of your mongo server, as well as the db name.
 mongoose.connect('mongodb://127.0.0.1/express_ember_example');
+require('./config/passport')(passport); // pass passport for configuration
 
-app.set('port', process.env.PORT || 3000);
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(express["static"](path.join(__dirname, 'public')));
+app.configure(function(){
+  app.set('port', process.env.PORT || 3000);
+  app.use(express.logger('dev'));
+  app.use(express.json());
+  app.use(express.urlencoded());
+  app.use(express.methodOverride());
+  app.use(express["static"](path.join(__dirname, 'public')));
+  // required for passport
+  app.use( express.cookieParser() );
+  app.use(express.session({ secret: 'verysecretsecret' })); // session secret
+  app.use(passport.initialize());
+  app.use(passport.session()); // persistent login sessions
+  app.use(flash()); // use connect-flash for flash messages stored in session
+  app.use(app.router);
+})
 
 if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
-// require('./config/passport')(passport); // pass passport for configuration
 
-// required for passport
-app.use(express.session({ secret: 'verysecretsecret' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
 
 require('./server/routes')(app, passport);
 

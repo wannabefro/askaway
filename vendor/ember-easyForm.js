@@ -535,7 +535,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "text", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-
+  
 }),
   attributeBindings: ['type', 'disabled'],
   type: 'submit',
@@ -582,7 +582,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "view.errorText", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-
+  
 }));
 
 })();
@@ -599,7 +599,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "view.hintText", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-
+  
 }));
 
 })();
@@ -625,7 +625,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   options = {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.partial || depth0.partial),stack1 ? stack1.call(depth0, "easyForm/inputControls", options) : helperMissing.call(depth0, "partial", "easyForm/inputControls", options))));
   return buffer;
-
+  
 }));
 
 })();
@@ -639,7 +639,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', stack1, stack2, hashContexts, hashTypes, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
-
+  
   var stack1, hashContexts, hashTypes, options;
   hashContexts = {'propertyBinding': depth0};
   hashTypes = {'propertyBinding': "STRING"};
@@ -650,7 +650,7 @@ function program1(depth0,data) {
   }
 
 function program3(depth0,data) {
-
+  
   var stack1, hashContexts, hashTypes, options;
   hashContexts = {'propertyBinding': depth0,'textBinding': depth0};
   hashTypes = {'propertyBinding': "STRING",'textBinding': "STRING"};
@@ -677,7 +677,7 @@ function program3(depth0,data) {
   stack2 = helpers['if'].call(depth0, "view.hint", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   return buffer;
-
+  
 }));
 
 })();
@@ -694,7 +694,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "view.labelText", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-
+  
 }));
 
 })();
@@ -749,9 +749,3 @@ Ember.EasyForm.processOptions = function(property, options) {
 
 })();
 
-
-
-if (typeof location !== 'undefined' && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-  Ember.Logger.warn("You are running a production build of Ember on localhost and won't receive detailed error messages. "+
-               "If you want full error messages please use the non-minified build provided on the Ember website.");
-}

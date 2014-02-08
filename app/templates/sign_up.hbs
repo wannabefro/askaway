@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="col-sm-6 col-sm-offset-3">
+    <h1><span class="fa fa-sign-in"></span> Signup</h1>
+    <form {{action 'save' this on='submit'}}>
+      <div class='form-group'>
+        <label for="email">Email</label>
+        {{input class='form-control' id='email' placeholder='Enter Email' value=email}}
+      </div>
+      <div class='form-group'>
+        <label for="password">Password</label>
+        {{input class='form-control' id='password' placeholder='Enter Password' type='password' value=password}}
+      </div>
+      <button type="submit" class='btn btn-warning btn-lg'>Signup</button>
+    </form>
+    <hr>
+
+    <p>Need an account?{{#link-to 'login'}}Sign in{{/link-to}}</p>
+    <p>Or go {{#link-to 'home'}}home{{/link-to}}</p>
+
+  </div>
+
+  </div>

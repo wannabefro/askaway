@@ -9,7 +9,7 @@ window.App = Ember.Application.create({
 require('store');
 require('router');
 
-var folderOrder = [ 'routes', 'models', 'views', 'controllers', 'helpers',
+var folderOrder = [ 'initializers', 'routes', 'models', 'views', 'controllers', 'helpers',
   'templates', 'components' ];
 
   folderOrder.forEach(function(folder) {
