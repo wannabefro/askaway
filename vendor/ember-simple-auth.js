@@ -614,7 +614,7 @@ Ember.SimpleAuth.Authenticators.OAuth2 = Ember.SimpleAuth.Authenticators.Base.ex
     @type String
     @default '/token'
   */
-  serverTokenEndpoint: '/api/v1/sign_in',
+  serverTokenEndpoint: 'login',
   /**
     Sets whether the authenticator automatically refreshes access tokens.
 
@@ -1471,6 +1471,7 @@ Ember.SimpleAuth.ApplicationRouteMixin = Ember.Mixin.create({
     invalidateSession: function() {
       var _this = this;
       this.get('session').invalidate().then(function() {
+        $.get('/logout');
         _this.send('sessionInvalidationSucceeded');
       }, function(error) {
         _this.send('sessionInvalidationFailed', error);

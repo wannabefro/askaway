@@ -2,6 +2,7 @@
 // load the things we need
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
+var hat      = require('hat');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
@@ -9,6 +10,7 @@ var userSchema = mongoose.Schema({
     local            : {
         email        : String,
         password     : String,
+        token        : String
     },
     facebook         : {
         id           : String,
@@ -36,6 +38,10 @@ var userSchema = mongoose.Schema({
 userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
+
+userSchema.methods.generateToken = function(){
+  return hat();
+}
 
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {

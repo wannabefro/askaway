@@ -5,6 +5,7 @@
 {{else}}
   <p>{{#link-to 'login'}}Sign in{{/link-to}}</p>
   <p>{{#link-to 'sign_up'}}Sign up{{/link-to}}</p>
+  <p><a {{ action 'invalidateSession' }} href='#'>Logout</a></p>
 {{/if}}
 {{outlet}}
 </div>

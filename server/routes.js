@@ -11,7 +11,11 @@ module.exports = function(app, passport){
     req.logout();
   });
   app.post('/signup', passport.authenticate('local-signup'), function(req, res){
-    res.send(req.user.email);
+    res.send({message: 'success'});
+  });
+  app.post('/login', passport.authenticate('local-login'), function(req, res){
+    data = {access_token: req.user.local.token, token_type: "bearer"};
+    res.send(data);
   });
 };
 function isLoggedIn(req, res, next){
