@@ -1,3 +1,4 @@
+var User          = require('../server/models/user');
 var polls = require('./controllers/polls');
 
 module.exports = function(app, passport){
@@ -7,14 +8,21 @@ module.exports = function(app, passport){
   app.put('/api/1/polls/:id', polls.update);
   app.post('/api/1/votes', polls.vote);
   app.del('/api/1/polls/:id', polls.destroy);
-  app.get('/logout', function(req, res){
+  app.post('/logout', function(req, res){
+    User.findOne({'local.email': req.user.local.email}, function(err, user){
+      user.local.token = null;
+      user.save();
+    });
     req.logout();
   });
   app.post('/signup', passport.authenticate('local-signup'), function(req, res){
     res.send({message: 'success'});
   });
   app.post('/login', passport.authenticate('local-login'), function(req, res){
-    data = {access_token: req.user.local.token, token_type: "bearer"};
+    data = {
+      access_token: req.user.local.token, 
+      token_type: "bearer",
+      user: {email: req.user.local.email, id: req.user.id}};
     res.send(data);
   });
 };

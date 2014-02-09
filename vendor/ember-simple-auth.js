@@ -31,7 +31,7 @@ Ember.SimpleAuth = Ember.Namespace.create({
     @type String
     @default 'login'
   */
-  authenticationRoute: 'index',
+  authenticationRoute: 'home',
   /**
     The route to transition to after successful authentication; can be set
     through [Ember.SimpleAuth.setup](#Ember-SimpleAuth-setup).
@@ -42,7 +42,7 @@ Ember.SimpleAuth = Ember.Namespace.create({
     @type String
     @default 'index'
   */
-  routeAfterAuthentication: 'index',
+  routeAfterAuthentication: 'home',
   /**
     The route to transition to after session invalidation; can be set through
     [Ember.SimpleAuth.setup](#Ember-SimpleAuth-setup).
@@ -53,7 +53,7 @@ Ember.SimpleAuth = Ember.Namespace.create({
     @type String
     @default 'index'
   */
-  routeAfterInvalidation: 'index',
+  routeAfterInvalidation: 'home',
 
   /**
     Sets up Ember.SimpleAuth for the application; this method __should be invoked in a custom
@@ -268,7 +268,7 @@ Ember.SimpleAuth.Session = Ember.ObjectProxy.extend({
     return new Ember.RSVP.Promise(function(resolve, reject) {
       _this.authenticator.invalidate(_this.content).then(function() {
         _this.authenticator.off('ember-simple-auth:session-updated');
-        $.post('api/v1/sign_out');
+        $.post('logout');
         App.__container__.lookup('controller:application').set('currentUser', null);
         _this.clear();
         App.__container__.lookup('store:main').init();
@@ -301,8 +301,8 @@ Ember.SimpleAuth.Session = Ember.ObjectProxy.extend({
     }, this.content);
     this.store.clear();
     var store = App.__container__.lookup('store:main');
-    store.push('user', data.user.user);
-    var currentUser = store.getById('user', data.user.user.id);
+    store.push('user', data.user);
+    var currentUser = store.getById('user', data.user.id);
     App.__container__.lookup('controller:application').set('currentUser', currentUser);
     data.user = JSON.stringify(data.user);
     this.store.persist(data);
@@ -1325,7 +1325,7 @@ Ember.SimpleAuth.LoginControllerMixin = Ember.Mixin.create(Ember.SimpleAuth.Auth
     authenticate: function(user) {
       if (user){
         if (!user.identification){
-          user.identification = user.username;
+          user.identification = user.username || user.email;
           delete user.username;
         }
         var data = user;

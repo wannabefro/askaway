@@ -8,7 +8,7 @@ App.SignUpRoute = Ember.Route.extend({
       var _this = this;
       data = model.getProperties('email', 'password');
       $.post('/signup', data).then(function(response){
-        debugger;
+        _this.controllerFor('login').send('authenticate', data);
       }, function(err){
       });
     }
