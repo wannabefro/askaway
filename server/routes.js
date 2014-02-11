@@ -22,7 +22,7 @@ module.exports = function(app, passport){
     data = {
       access_token: req.user.local.token, 
       token_type: "bearer",
-      user: {email: req.user.local.email, id: req.user.id}};
+      user: {votes: req.user.local.votes, email: req.user.local.email, id: req.user.id}};
     res.send(data);
   });
 };

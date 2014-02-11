@@ -1,16 +1,19 @@
 // app/models/user.js
 // load the things we need
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+  Schema = mongoose.Schema;
 var bcrypt   = require('bcrypt-nodejs');
 var hat      = require('hat');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
-
+    votes: [{
+      type: Schema.Types.ObjectId, ref: 'Vote'
+    }],
     local            : {
         email        : String,
         password     : String,
-        token        : String
+        token        : String,
     },
     facebook         : {
         id           : String,
@@ -29,7 +32,7 @@ var userSchema = mongoose.Schema({
         token        : String,
         email        : String,
         name         : String
-    }
+    },
 
 });
 

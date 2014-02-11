@@ -1,4 +1,6 @@
 App.PollsShowController = Ember.ObjectController.extend({
+  needs: 'application',
+  currentUser: Ember.computed.alias('controllers.application.currentUser'),
   canEdit: true,
   events: {
     myvote: function(vote){
@@ -13,7 +15,8 @@ App.PollsShowController = Ember.ObjectController.extend({
     vote: function(choice) {
       var id = this.get('id');
       var choice_id = choice.get('id');
-      data = {poll_id: id, choice: choice_id};
+      var user_id = this.get('currentUser.id');
+      data = {poll_id: id, choice_id: choice_id, user_id: user_id};
       this.socket.emit('send:vote', data);
     },
 

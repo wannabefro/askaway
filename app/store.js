@@ -54,13 +54,15 @@ App.PollSerializer = DS.RESTSerializer.extend({
       payload.choices.push(choice._id);
       choiceVotes.forEach(function(vote){
         choice.votes.push(vote._id);
+        vote.user_id = vote.user;
+        delete vote.user;
         votes.push(vote);
       });
     });
     payload.id = payload._id;
     delete payload._id;
-    payload = {votes: votes, choices: choices, poll: payload};
-    return this._super(store, type, payload, id, requestType);
+    var updatedPayload = {votes: votes, choices: choices, poll: payload};
+    return this._super(store, type, updatedPayload, id, requestType);
   }
 });
 

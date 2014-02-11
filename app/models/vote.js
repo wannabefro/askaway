@@ -1,4 +1,4 @@
 App.Vote = DS.Model.extend({
-  ip: DS.attr(),
-  choice: DS.belongsTo('choice')
+  choice: DS.belongsTo('choice'),
+  user: DS.belongsTo('user')
 });

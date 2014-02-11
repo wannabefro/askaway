@@ -1,3 +1,4 @@
 App.User = DS.Model.extend({
-  email: DS.attr()
+  email: DS.attr(),
+  votes: DS.hasMany('vote')
 });

@@ -1,8 +1,10 @@
-var mongoose = require('mongoose');
-var voteSchema = new mongoose.Schema({ ip: 'String' });
+var mongoose = require('mongoose'),
+  Schema = mongoose.Schema;
 var choiceSchema = new mongoose.Schema({ 
   text: String,
-  votes: [voteSchema]
+    votes: [{
+      type: Schema.Types.ObjectId, ref: 'Vote'
+    }]
 });
 var pollSchema = new mongoose.Schema({
   question: { type: String, required: true },
