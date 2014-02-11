@@ -50,12 +50,9 @@ App.PollSerializer = DS.RESTSerializer.extend({
     var votes = [];
     choices.forEach(function(choice){
       choiceVotes = choice.votes;
-      choice.votes = [];
       payload.choices.push(choice._id);
       choiceVotes.forEach(function(vote){
-        choice.votes.push(vote._id);
-        vote.user_id = vote.user;
-        delete vote.user;
+        vote.choice_id = choice._id;
         votes.push(vote);
       });
     });

@@ -30,7 +30,7 @@ App.PollsNewRoute = Ember.Route.extend({
         model.get('choices.content').filterBy('isDirty').forEach(function(choice){
           choice.deleteRecord();
         });
-        model.set('id', response._data._id);
+        model.set('id', response._data.id);
         _this.transitionTo('polls.show', model);
       });
     },

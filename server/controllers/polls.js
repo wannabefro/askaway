@@ -54,8 +54,8 @@ exports.vote = function(socket) {
         poll.save();
       });
     });
-    socket.emit('myvote');
-    socket.broadcast.emit('vote');
+    socket.emit('myvote', vote);
+    socket.broadcast.emit('vote', vote);
   });
 };
     // Poll.findById(data.poll_id, function(err, poll) {

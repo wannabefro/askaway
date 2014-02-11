@@ -2,6 +2,7 @@
 <h1>Welcome to {{#link-to 'home'}}Ask Away{{/link-to}}</h1>
 {{#if session.isAuthenticated}}
   <h3>{{#link-to 'polls.new'}}Make a new poll{{/link-to}}</h3>
+  <h3>{{#link-to 'polls.index'}}All polls{{/link-to}}</h3>
   <p>{{currentUser.votes.length}}</p>
   <p><a {{ action 'invalidateSession' }} href='#'>Logout</a></p>
 {{else}}
