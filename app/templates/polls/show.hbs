@@ -5,8 +5,10 @@
 {{/if}}
 <ul>
   {{totalVotes}}
-  {{#each choices}}
-    <li>{{text}} {{votes.length}} votes 
-    <button {{action vote this}}>Vote</button></li>
-  {{/each}}
+  {{#if hasNotVoted}}
+    {{#each choices}}
+      <li>{{text}} {{votes.length}} votes 
+      <button {{action vote this}}>Vote</button></li>
+    {{/each}}
+  {{/if}}
 </ul>

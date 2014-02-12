@@ -1,6 +1,7 @@
 var Poll = require('../models/poll');
 var Vote = require('../models/vote');
 var User = require('../models/user');
+var async = require('async');
 
 exports.index = function(req, res) {
   Poll.find(function(err, polls) {
@@ -11,8 +12,33 @@ exports.index = function(req, res) {
 };
 
 exports.show = function(req, res) {
-  Poll.findById(req.params.id, function(err, poll){
-    res.send(poll);
+  data = {}
+  async.series([
+    function(callback){
+    Poll.findById(req.params.id, function(err, poll){
+      data.poll = poll;
+      callback(null, 'done');
+    });
+  },
+  function(finalCallback){
+    var votes = [];
+    async.forEach(data.poll.choices, function(choice, callback1){
+      async.forEach(choice.votes, function(vote, callback){
+        Vote.findById(vote, function(err, vote){
+          votes.push(vote);
+          callback();
+        });
+      }, function(err){
+        callback1();
+      });
+    }, function(err){
+        data.votes = votes;
+        finalCallback(null, 'done');
+    });
+  }
+  ], function(err, result){
+    console.log('alldone');
+    res.send(data);
   });
 }
 
@@ -20,14 +46,14 @@ exports.create = function(req, res) {
   new Poll(req.body.poll).save(function (err, poll, numberAffected){
     if (err){
     } else {
-      res.send(poll);
+      res.send({poll: poll});
     }
   });
 };
 
 exports.update = function(req, res) {
   Poll.findByIdAndUpdate(req.params.id, req.body.poll, function(err, poll) {
-    res.send(poll);
+    res.send({poll: poll});
   });
 };
 

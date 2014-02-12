@@ -34,8 +34,10 @@ App.PollSerializer = DS.RESTSerializer.extend({
           choiceVotes = choice.votes;
           choice.votes = [];
           choiceVotes.forEach(function(vote){
-            choice.votes.push(vote._id);
-            votes.push(vote);
+            choice.votes.push(vote);
+            newVote = {};
+            newVote._id = vote
+            votes.push(newVote);
           });
         });
         poll.choices = choice_ids;
@@ -45,20 +47,26 @@ App.PollSerializer = DS.RESTSerializer.extend({
     return this._super(store, type, payload, id, requestType);
   },
   extractSingle: function(store, type, payload, id, requestType) {
-    var choices = payload.choices;
-    payload.choices = [];
-    var votes = [];
+    var currentUser = this.container.lookup('controller:application').get('currentUser');
+    var choices = payload.poll.choices;
+    payload.poll.choices = [];
     choices.forEach(function(choice){
-      choiceVotes = choice.votes;
-      payload.choices.push(choice._id);
-      choiceVotes.forEach(function(vote){
-        vote.choice_id = choice._id;
-        votes.push(vote);
-      });
+      payload.poll.choices.push(choice._id);
     });
-    payload.id = payload._id;
-    delete payload._id;
-    var updatedPayload = {votes: votes, choices: choices, poll: payload};
+    if (payload.votes){
+      payload.votes.forEach(function(vote){
+        if (vote._user === currentUser.get('id')){
+          vote.user_id = vote._user;
+        }
+      });
+    }
+    payload.poll.id = payload.poll._id;
+    delete payload.poll._id;
+    if (payload.votes){
+      var updatedPayload = {votes: payload.votes, choices: choices, poll: payload.poll};
+    } else {
+      var updatedPayload = {choices: choices, poll: payload.poll};
+    }
     return this._super(store, type, updatedPayload, id, requestType);
   }
 });
