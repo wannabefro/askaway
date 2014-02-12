@@ -5,8 +5,13 @@
 {{#each choices}}
 <div>
 <label for="">Choice</label>
+{{#if editable}}
 {{input value=text}}
 <button type="submit" {{action removeChoice this}}>Remove choice</button>
+{{else}}
+{{input value=text disabled=true}}
+Can't edit a choice that's been voted on.
+{{/if}}
 </div>
 {{/each}}
 <button type="submit" {{action save this}}>Save</button>

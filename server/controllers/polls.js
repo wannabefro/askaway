@@ -2,6 +2,7 @@ var Poll = require('../models/poll');
 var Vote = require('../models/vote');
 var User = require('../models/user');
 var async = require('async');
+var mongoose = require('mongoose');
 
 exports.index = function(req, res) {
   Poll.find(function(err, polls) {
@@ -53,9 +54,28 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
+  async.series([
+  function(callback){
+    var choiceIndex = 0;
+    async.forEach(req.body.poll.choices, function(choice, callback1){
+      var voteIndex = 0;
+      async.forEach(choice.votes, function(vote, callback2){
+        req.body.poll.choices[choiceIndex].votes[voteIndex] = mongoose.Types.ObjectId(vote._id);
+        voteIndex++;
+        callback2();
+      });
+      choiceIndex++;
+      callback1();
+      callback();
+    });
+  },
+  function(callback){
   Poll.findByIdAndUpdate(req.params.id, req.body.poll, function(err, poll) {
     res.send({poll: poll});
+    callback();
   });
+  }
+  ]);
 };
 
 exports.destroy = function(req, res) {
@@ -85,20 +105,3 @@ exports.vote = function(socket) {
     socket.broadcast.emit('vote', vote);
   });
 };
-    // Poll.findById(data.poll_id, function(err, poll) {
-    //   var choice = poll.choices.id(data.choice_id);
-    //   var vote = choice.votes.push({ user: data.user_id });      
-    //   poll.save(function(err, doc) {
-    //     console.log('the vote is' +vote); 
-        // var theDoc = { 
-        //   question: doc.question, _id: doc._id, choices: doc.choices, 
-        //   userVoted: false, totalVotes: 0 
-        // };
-        // for(var i = 0, ln = doc.choices.length; i < ln; i++) {
-        //   var choice = doc.choices[i]; 
-        //   for(var j = 0, jLn = choice.votes.length; j < jLn; j++) {
-        //     var vote = choice.votes[j];
-        //     theDoc.totalVotes++;
-        //     theDoc.userVoted = true;
-        //     theDoc.userChoice = { _id: choice._id, text: choice.text };
-        //   }

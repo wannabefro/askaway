@@ -23,6 +23,7 @@ App.PollsEditRoute = Ember.Route.extend({
       });
     },
     cancel: function(model) {
+      model.rollback();
       this.transitionTo('polls.show', model);
     }
   }

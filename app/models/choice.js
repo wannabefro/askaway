@@ -5,5 +5,9 @@ App.Choice = DS.Model.extend({
 
   voteCount: function(){
     return this.get('votes.content').length;
+  }.property('votes.@each'),
+
+  editable: function(){
+    return (this.get('votes.content').length === 0) ? true : false
   }.property('votes.@each')
 });

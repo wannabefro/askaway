@@ -13,8 +13,20 @@ DS.JSONSerializer.reopen({
 
       json[key] = [];
       property.forEach(function(item, index){
-        json[key].push(item.serialize());
+        data = (item.constructor === App.Vote) ? {_id: item._data.id} : item.serialize();
+        json[key].push(data);
       });
+    }
+  },
+  serializeBelongsTo: function(record, json, relationship) {
+    var key = relationship.key,
+    belongsToRecord = Ember.get(record, key);
+
+    if (relationship.options.embedded === 'always') {
+      json[key] = belongsToRecord.serialize();
+    }
+    else {
+      return this._super(record, json, relationship);
     }
   }
 });
