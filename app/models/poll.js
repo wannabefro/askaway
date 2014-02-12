@@ -1,5 +1,6 @@
 App.Poll = DS.Model.extend({
   question: DS.attr(),
+  public: DS.attr('boolean', {defaultValue: true}),
   choices: DS.hasMany('choice'),
   user: DS.belongsTo('user'),
 

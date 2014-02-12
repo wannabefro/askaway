@@ -5,7 +5,7 @@ var async = require('async');
 var mongoose = require('mongoose');
 
 exports.index = function(req, res) {
-  Poll.find(function(err, polls) {
+  Poll.find({public: true}, function(err, polls) {
     res.send({
       polls: polls
     });

@@ -2,6 +2,10 @@
 <label for="">Question</label>
 {{input value=question}}
 </div>
+<div>
+  <label for="public">Public</label>
+  {{input type="checkbox" name="public" checked=public}}
+</div>
 {{#each choices}}
 <div>
 <label for="">Choice</label>
