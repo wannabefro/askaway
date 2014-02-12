@@ -1,6 +1,7 @@
 App.Poll = DS.Model.extend({
   question: DS.attr(),
   choices: DS.hasMany('choice'),
+  user: DS.belongsTo('user'),
 
   totalVotes: function(){
     total = 0;

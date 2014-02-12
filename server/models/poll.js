@@ -8,7 +8,8 @@ var choiceSchema = new mongoose.Schema({
 });
 var pollSchema = new mongoose.Schema({
   question: { type: String, required: true },
-  choices: [choiceSchema]
+  choices: [choiceSchema],
+  user: {type: String, ref: 'User'}
 });
 
 module.exports = mongoose.model('Poll', pollSchema);

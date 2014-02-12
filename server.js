@@ -11,7 +11,7 @@ var routes = require('./server/controllers/polls');
 
 mongoose.set('debug', true);
 // This is the location of your mongo server, as well as the db name.
-mongoose.connect('mongodb://127.0.0.1/express_ember_example');
+mongoose.connect('mongodb://127.0.0.1/ask_away_development');
 require('./config/passport')(passport); // pass passport for configuration
 
 app.configure(function(){
@@ -23,7 +23,7 @@ app.configure(function(){
   app.use(express["static"](path.join(__dirname, 'public')));
   // required for passport
   app.use( express.cookieParser() );
-  app.use(express.session({ secret: 'verysecretsecret' })); // session secret
+  app.use(express.session({ secret: 'verysecretsecret', cookie: {maxAge: 60000}})); // session secret
   app.use(passport.initialize());
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session

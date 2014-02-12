@@ -1,6 +1,7 @@
 App.PollsNewRoute = Ember.Route.extend({
   model: function() {
-    poll = this.store.createRecord('poll');
+    currentUser = this.controllerFor('application').get('currentUser');
+    poll = this.store.createRecord('poll', {user: currentUser});
     for(var i=0;i<3;i++){
       choice = this.store.createRecord('choice', {poll: poll});
       poll.get('choices').addObject(choice);

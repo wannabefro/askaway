@@ -43,6 +43,7 @@ exports.show = function(req, res) {
 }
 
 exports.create = function(req, res) {
+  req.body.poll.user = req.user._id;
   new Poll(req.body.poll).save(function (err, poll, numberAffected){
     if (err){
     } else {
@@ -65,15 +66,15 @@ exports.destroy = function(req, res) {
 
 exports.vote = function(socket) {
   socket.on('send:vote', function(data) {
-    var vote = new Vote({ kind: 'choice', _user: data.user_id, _kind_id: data.choice_id});
+    var vote = new Vote({ kind: 'choice', user: data.user_id, kind_id: data.choice_id});
     vote.save(function(err){
-      Vote.findOne(vote).populate('_user').exec(function(err,item){
+      Vote.findOne(vote).populate('user').exec(function(err,item){
       });
       User.findById(data.user_id, function(err, user){
         user.votes.push(vote);
         user.save();
       });
-      Vote.findOne(vote).populate('_kind_id').exec();
+      Vote.findOne(vote).populate('kind_id').exec();
       Poll.findById(data.poll_id, function(err, poll){
         var choice = poll.choices.id(data.choice_id);
         choice.votes.push(vote);
