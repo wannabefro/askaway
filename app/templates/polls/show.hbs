@@ -1,5 +1,9 @@
 <h1>{{question}}</h1>
+{{#if complete}}
+<h3>Voting is over</h3>
+{{else}}
 {{#if canEdit}}
+  <button {{action update this}}>Close voting</button>
   <button {{action destroyRecord this}}>Delete poll</button>
   {{#link-to 'polls.edit'}}Edit Poll{{/link-to}}
 {{/if}}
@@ -12,3 +16,4 @@
     {{/each}}
   {{/if}}
 </ul>
+{{/if}}

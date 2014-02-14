@@ -52,6 +52,14 @@ App.PollsShowRoute = Ember.Route.extend({
       model.destroyRecord().then(function() {
         _this.transitionTo('polls.index');
       });
+    },
+
+    update: function(model) {
+      var _this = this;
+      model.set('complete', true);
+      model.save().then(function(response){
+
+      });
     }
   }
 });
